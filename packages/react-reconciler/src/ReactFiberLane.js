@@ -471,6 +471,10 @@ export function getLanesToRetrySynchronouslyOnError(
   return NoLanes;
 }
 
+export function getTransitionLanes(lanes: Lanes): Lanes {
+  return lanes & TransitionLanes;
+}
+
 export function includesSyncLane(lanes: Lanes): boolean {
   return (lanes & (SyncLane | SyncHydrationLane)) !== NoLanes;
 }
@@ -513,7 +517,7 @@ export function includesExpiredLane(root: FiberRoot, lanes: Lanes): boolean {
   return (lanes & root.expiredLanes) !== NoLanes;
 }
 
-export function isTransitionLane(lane: Lane): boolean {
+export function includesTransitionLane(lane: Lane): boolean {
   return (lane & TransitionLanes) !== NoLanes;
 }
 

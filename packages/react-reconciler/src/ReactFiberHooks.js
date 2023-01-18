@@ -67,7 +67,7 @@ import {
   mergeLanes,
   removeLanes,
   intersectLanes,
-  isTransitionLane,
+  includesTransitionLane,
   markRootEntangled,
   markRootMutableRead,
   NoTimestamp,
@@ -2727,7 +2727,7 @@ function entangleTransitionUpdate<S, A>(
   queue: UpdateQueue<S, A>,
   lane: Lane,
 ): void {
-  if (isTransitionLane(lane)) {
+  if (includesTransitionLane(lane)) {
     let queueLanes = queue.lanes;
 
     // If any entangled lanes are no longer pending on the root, then they
