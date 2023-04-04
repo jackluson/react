@@ -280,6 +280,8 @@ import {
   flushSyncWorkOnAllRoots,
   flushSyncWorkOnLegacyRootsOnly,
   getContinuationForRoot,
+  getCurrentEventTransitionLane,
+  setCurrentEventTransitionLane,
 } from './ReactFiberRootScheduler';
 
 const ceil = Math.ceil;
@@ -589,7 +591,6 @@ let rootWithPassiveNestedUpdates: FiberRoot | null = null;
 // event times as simultaneous, even if the actual clock time has advanced
 // between the first and second call.
 let currentEventTime: number = NoTimestamp;
-let currentEventTransitionLane: Lanes = NoLanes;
 
 let isRunningInsertionEffect = false;
 
@@ -662,11 +663,11 @@ export function requestUpdateLane(fiber: Fiber): Lane {
     // The trick we use is to cache the first of each of these inputs within an
     // event. Then reset the cached values once we can be sure the event is
     // over. Our heuristic for that is whenever we enter a concurrent work loop.
-    if (currentEventTransitionLane === NoLane) {
+    if (getCurrentEventTransitionLane() === NoLane) {
       // All transitions within the same event are assigned the same lane.
-      currentEventTransitionLane = claimNextTransitionLane();
+      setCurrentEventTransitionLane(claimNextTransitionLane());
     }
-    return currentEventTransitionLane;
+    return getCurrentEventTransitionLane();
   }
 
   // Updates originating inside certain React methods, like flushSync, have
@@ -879,7 +880,6 @@ export function performConcurrentWorkOnRoot(
   // Since we know we're in a React event, we can clear the current
   // event time. The next update will compute a new event time.
   currentEventTime = NoTimestamp;
-  currentEventTransitionLane = NoLanes;
 
   if ((executionContext & (RenderContext | CommitContext)) !== NoContext) {
     throw new Error('Should not already be working.');
