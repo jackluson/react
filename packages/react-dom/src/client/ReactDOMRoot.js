@@ -174,6 +174,8 @@ export function createRoot(
   warnIfReactDOMContainerInDEV(container);
 
   let isStrictMode = false;
+  console.log('isStrictMode', isStrictMode);
+  debugger;
   let concurrentUpdatesByDefaultOverride = false;
   let identifierPrefix = '';
   let onRecoverableError = defaultOnRecoverableError;

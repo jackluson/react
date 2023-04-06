@@ -154,6 +154,7 @@ export function createFiberRoot(
     identifierPrefix,
     onRecoverableError,
   ): any);
+  console.info("🚀 ~ file: ReactFiberRoot.new.js:159 ~ root", root)
   if (enableSuspenseCallback) {
     root.hydrationCallbacks = hydrationCallbacks;
   }

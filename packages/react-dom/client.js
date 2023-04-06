@@ -54,3 +54,11 @@ export function hydrateRoot(
     }
   }
 }
+
+
+const ReactDOMClient = {
+  createRoot,
+  hydrateRoot,
+}
+
+export default ReactDOMClient
